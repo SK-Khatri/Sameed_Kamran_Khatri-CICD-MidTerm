@@ -47,7 +47,7 @@ jobs:
 
     name: Snyk Security Scan
     needs: build  # to ensure this runs after build job is successful
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # permissions necessary for snyk
     permissions:
