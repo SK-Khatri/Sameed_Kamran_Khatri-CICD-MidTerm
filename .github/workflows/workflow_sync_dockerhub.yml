@@ -47,7 +47,7 @@ jobs:
 
     name: Snyk Security Scan
     needs: build  # to ensure this runs after build job is successful
-    runs-on: $ {{matrix.os}}
+    runs-on: windows-latest
 
     # permissions necessary for snyk
     permissions:
