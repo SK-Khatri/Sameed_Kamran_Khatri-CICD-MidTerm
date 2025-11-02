@@ -95,13 +95,13 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}
 
     - name: Build and push Docker images
-      uses: docker/build-push-actions@v5
+      uses: docker/build-push-action@v5
       with:
         context: .
         file: ./Dockerfile
         push: true
         tags: |
-          skkhatri06/cmdbuild:om-2.3-3.4.1-d
+          skkhatri06/cmdbuild:v1.1.0
           skkhatri06/cmdbuild:latest
 
     - name: Deploy with Docker
