@@ -101,7 +101,7 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          skkhatri06/cmdbuild:v1.1.0
+          skkhatri06/cmdbuild:om-2.3-3.4.1-d
           skkhatri06/cmdbuild:latest
 
     - name: Deploy with Docker
