@@ -15,7 +15,7 @@ jobs:
     
     name: Build and Test
 
-    # defining the os and node-versions to use
+    # defining the os and node versions to use
     strategy:
       matrix: 
         os: [ubuntu-latest, windows-latest]
@@ -27,9 +27,10 @@ jobs:
     # steps
     steps:
     
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
     
-    - name: Use Node.js ${{ matrix.node-version}}
+    - name: Use Node.js ${{matrix.node-version}}
       uses: actions/setup-node@v4
       with:
         node-version: ${{matrix.node-version}}
@@ -40,5 +41,37 @@ jobs:
 
     - name: Run scripts
       run: npm test
+
+  # job 2: scanning with snyk
+  snyk-scan:
+
+    name: Snyk Security Scan
+    needs: build  # to ensure this runs after build job is successful
+    runs-on: $ {{matrix.os}}
+
+    # permissions necessary for snyk
+    permissions:
+      contents: read  # required to check code
+      security-events: write  # required to upload results on snyk
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Snyk
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --sarif-file-output=snyk-results.sarif
+
+    - name: Upload Snyk results to GitHub security tab
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: 'snyk-results.sarif'
         
     
